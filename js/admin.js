@@ -1,6 +1,6 @@
-// 브랜드/수입브랜드/제품 카탈로그는 "브랜드 추가 등록"과 "신규 제품 추가" 탭이
-// 이미 전용 폼(+ 3개 문서 동기화 로직)으로 관리하므로, 같은 데이터를 다시 원시
-// JSON으로 편집할 수 있게 두면 두 편집 경로가 어긋날 수 있어 탭에서 제외한다.
+// 브랜드/제품 카탈로그는 "브랜드 추가 등록"과 "신규 제품 추가" 탭이 이미 전용
+// 폼(+ 문서 동기화 로직)으로 관리하므로, 같은 데이터를 다시 원시 JSON으로 편집할
+// 수 있게 두면 두 편집 경로가 어긋날 수 있어 탭에서 제외한다.
 const SECTIONS = [
   { id: "add-brand", label: "브랜드 추가 등록" },
   { id: "add-product", label: "신규 제품 추가" },
@@ -510,7 +510,7 @@ function buildBrandFields(prefill) {
       "브랜드 유형 (노출될 메뉴/페이지 결정)",
       el("div", { class: "radio-row" }, [
         el("label", {}, [typeOwn, document.createTextNode(' 자사 브랜드 → "브랜드" 메뉴에 노출')]),
-        el("label", {}, [typeImported, document.createTextNode(' 수입 브랜드 → "수입브랜드" 메뉴에 노출')]),
+        el("label", {}, [typeImported, document.createTextNode(' 수입 브랜드 → 브랜드 페이지의 "수입 브랜드" 그룹에 노출')]),
       ])
     ),
     el("div", { class: "form-row-2" }, [formField("브랜드 슬로건 (한글)", tagline), formField("브랜드 슬로건 (영문)", taglineEn)]),

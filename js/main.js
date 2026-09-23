@@ -85,7 +85,7 @@ function renderBrands(intro, brands, imported) {
   const logoGrid = el("div", { class: "imported-logo-grid" });
   imported.forEach((b) =>
     logoGrid.appendChild(
-      el("a", { class: "logo-card", href: `imported-brands.html#${b.id}` }, [el("img", { src: b.logo, alt: t(b, "name", lang), loading: "lazy" })])
+      el("a", { class: "logo-card", href: `brands.html#imported-${b.id}` }, [el("img", { src: b.logo, alt: t(b, "name", lang), loading: "lazy" })])
     )
   );
   strip.appendChild(logoGrid);

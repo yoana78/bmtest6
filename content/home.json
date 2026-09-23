@@ -112,7 +112,7 @@
       "tagline": "프리미엄 펫 케어 전문브랜드",
       "taglineEn": "Premium Pet Care Brand",
       "logo": "assets/brands/dayspo.png",
-      "href": "brands.html#dayspo"
+      "href": "brands.html#own-dayspo"
     },
     {
       "name": "벨버드",
@@ -120,7 +120,7 @@
       "tagline": "대중적인 반려동물 멀티 브랜드",
       "taglineEn": "Popular Pet Multi-Brand",
       "logo": "assets/brands/bellbird.png",
-      "href": "brands.html#bellbird"
+      "href": "brands.html#own-bellbird"
     },
     {
       "name": "에버그로",
@@ -128,7 +128,7 @@
       "tagline": "펫밀크와 초유를 활용한 면역력 케어 브랜드",
       "taglineEn": "Immunity Care Brand with Pet Milk & Colostrum",
       "logo": "assets/brands/evergrow.png",
-      "href": "brands.html#evergrow"
+      "href": "brands.html#own-evergrow"
     },
     {
       "name": "하우펫",
@@ -136,7 +136,7 @@
       "tagline": "반려동물의 더 건강한 삶을 위한 펫푸드 브랜드",
       "taglineEn": "Pet Food Brand for Healthy Pet Life",
       "logo": "assets/brands/howpet.png",
-      "href": "brands.html#howpet"
+      "href": "brands.html#own-howpet"
     }
   ],
   "importedBrands": [
