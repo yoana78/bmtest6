@@ -1,11 +1,11 @@
 {
   "intro": {
     "eyebrow": "브랜드",
-    "eyebrowEn": "Brands",
-    "title": "네 개의 브랜드, 하나의 기준",
-    "titleEn": "Four Brands, One Standard",
-    "body": "영양, 데일리 케어, 면역, 실용까지 각 브랜드가 서로 다른 필요를 담당합니다.",
-    "bodyEn": "From nutrition and daily care to immunity and everyday essentials, each brand addresses a different need.",
+    "eyebrowEn": "OUR BRAND PORTFOLIO",
+    "title": "우리가 만든 브랜드, 우리가 고른 브랜드",
+    "titleEn": "Brands we build, brands we choose",
+    "body": "직접 연구하고 제조하는 자사 브랜드와, 부명이 엄선해 국내에 공급하는 수입 브랜드를 한 곳에서 만나보세요.",
+    "bodyEn": "The brands we research and manufacture ourselves, alongside the overseas brands we hand-pick for the Korean market.",
     "image": "assets/stock/brands-hero.jpg"
   },
   "brands": [
@@ -52,6 +52,72 @@
       "descriptionEn": "Pet Food Brand for Healthy Pet Life",
       "color": "#1B2B6B",
       "type": "own"
+    }
+  ],
+  "importedIntro": {
+    "eyebrow": "수입브랜드",
+    "eyebrowEn": "Imported Brands",
+    "title": "세계의 좋은 제품을 국내 파트너에게",
+    "titleEn": "The World's Best, for Korean Partners",
+    "body": "검증된 해외 브랜드를 직접 소싱하여 국내 유통 채널에 공급합니다.",
+    "bodyEn": "We source verified overseas brands directly and supply them to domestic distribution channels.",
+    "image": "assets/stock/imported-brands-hero.jpg"
+  },
+  "importedBrands": [
+    {
+      "id": "ninaottosson",
+      "nameKo": "니나오토슨",
+      "nameEn": "Nina Ottosson",
+      "tagline": "Interactive Play, Sweden",
+      "logo": "assets/brands/imported/ninaottosson.png",
+      "descriptionKo": "반려동물의 지능 발달을 돕는 스웨덴 노즈워크 · 퍼즐 토이 브랜드",
+      "descriptionEn": "Swedish nosework & puzzle toy brand for pet enrichment",
+      "color": "#2B2118",
+      "type": "imported"
+    },
+    {
+      "id": "dono",
+      "nameKo": "도노",
+      "nameEn": "DONO",
+      "tagline": "Trusted Everyday Care",
+      "logo": "assets/brands/imported/dono.png",
+      "descriptionKo": "수입 반려동물 위생 및 관리용품 브랜드",
+      "descriptionEn": "Imported pet hygiene & daily care brand",
+      "color": "#C0392B",
+      "type": "imported"
+    },
+    {
+      "id": "reflex",
+      "nameKo": "리플렉스",
+      "nameEn": "Reflex",
+      "tagline": "Balanced Nutrition",
+      "logo": "assets/brands/imported/reflex.png",
+      "descriptionKo": "균형 잡힌 영양 설계의 수입 반려동물 사료 브랜드",
+      "descriptionEn": "Imported pet food brand with balanced nutrition",
+      "color": "#1E1E1E",
+      "type": "imported"
+    },
+    {
+      "id": "sulfodene",
+      "nameKo": "설퍼딘",
+      "nameEn": "Sulfodene",
+      "tagline": "Skin & Coat Care, USA",
+      "logo": "assets/brands/imported/sulfodene.png",
+      "descriptionKo": "피부 및 모질 케어 전문 미국 수입 브랜드",
+      "descriptionEn": "American imported brand specialized in skin & coat care",
+      "color": "#B71C1C",
+      "type": "imported"
+    },
+    {
+      "id": "petstage",
+      "nameKo": "펫스테이지",
+      "nameEn": "Petstages",
+      "tagline": "Products With Purpose",
+      "logo": "assets/brands/imported/petstage.png",
+      "descriptionKo": "반려동물 장난감 전문 미국 수입 브랜드",
+      "descriptionEn": "American imported brand for purposeful pet toys",
+      "color": "#D32F2F",
+      "type": "imported"
     }
   ],
   "footer": {

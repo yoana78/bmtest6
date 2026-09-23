@@ -56,6 +56,56 @@ function setupHeaderScroll() {
     onScroll();
   }
   setupMobileMenu();
+  setupBrandMegaMenu();
+}
+
+// 헤더의 "브랜드"에 마우스를 올리면 자사/수입 브랜드 목록이 팝업으로 펼쳐진다.
+// 목록은 브랜드 페이지와 같은 문서(brands-content)에서 가져오므로 관리자에서
+// 브랜드를 추가하면 메뉴에도 그대로 반영된다.
+async function setupBrandMegaMenu() {
+  const ownGrid = document.getElementById("mega-own");
+  const importedGrid = document.getElementById("mega-imported");
+  if (!ownGrid || !importedGrid) return;
+
+  let content;
+  try {
+    content = await loadContent("/api/brands-content", "content/brands.json");
+  } catch {
+    return;
+  }
+
+  const fill = (grid, list, anchor) => {
+    grid.innerHTML = "";
+    (list || []).forEach((b) => {
+      grid.appendChild(
+        el("a", { class: "nav-mega-item", href: `brands.html#${anchor}-${b.id}` }, [
+          el("span", { class: "nav-mega-logo" }, b.logo ? [el("img", { src: b.logo, alt: "" })] : []),
+          el("span", { class: "nav-mega-name", "data-brand-id": b.id, text: t(b, "name", currentLang()) || b.nameKo }),
+        ])
+      );
+    });
+  };
+
+  const paint = (lang) => {
+    document.querySelectorAll("[data-mega-title]").forEach((node) => {
+      const own = node.dataset.megaTitle === "own";
+      node.textContent = lang === "en" ? (own ? "Our Brands" : "Imported Brands") : own ? "자체 브랜드" : "수입 브랜드";
+    });
+    const nameOf = (b) => (lang === "en" ? b.nameEn || b.nameKo : b.nameKo);
+    [...(content.brands || []), ...(content.importedBrands || [])].forEach((b) => {
+      const node = document.querySelector(`.nav-mega-name[data-brand-id="${b.id}"]`);
+      if (node) node.textContent = nameOf(b);
+    });
+  };
+
+  fill(ownGrid, content.brands, "own");
+  fill(importedGrid, content.importedBrands, "imported");
+  paint(currentLang());
+  // 언어 토글은 페이지별 스크립트가 잡고 있어서, 메뉴는 토글 버튼을 직접 듣는다.
+  document.querySelectorAll(".lang-btn").forEach((btn) => {
+    if (btn.id === "menu-btn" || btn.tagName === "A") return;
+    btn.addEventListener("click", () => setTimeout(() => paint(currentLang()), 0));
+  });
 }
 
 function setupMobileMenu() {
@@ -105,10 +155,10 @@ async function loadContent(endpoint, localJsonPath) {
 const UI_STRINGS = {
   "홈": "Home",
   "회사소개": "About Us",
+  "제조·역량": "Manufacturing",
   "브랜드": "Brands",
-  "수입브랜드": "Imported Brands",
   "제품 카탈로그": "Product Catalog",
-  "품질·인증": "Trust & Certification",
+  "파트너·네트워크": "Partners & Network",
   "문의하기": "Contact",
   "관리자": "Admin",
   "기업 안내": "Company",
@@ -144,7 +194,7 @@ function translateStaticUI(lang) {
     if (node.hasAttribute("data-i18n-placeholder")) node.setAttribute("placeholder", text);
     else node.textContent = text;
   });
-  document.querySelectorAll(".main-nav a, #mobile-nav a, .foot-col a, .foot-col h4, .foot-legal span, .foot-legal a, .brand-mark span").forEach((node) => {
+  document.querySelectorAll(".main-nav a, .nav-mega-trigger, #mobile-nav a, .foot-col a, .foot-col h4, .foot-legal span, .foot-legal a, .brand-mark span").forEach((node) => {
     const text = node.textContent.trim();
     if (lang === "en" && UI_STRINGS[text]) node.textContent = UI_STRINGS[text];
     else if (lang === "ko" && UI_STRINGS_REV[text]) node.textContent = UI_STRINGS_REV[text];

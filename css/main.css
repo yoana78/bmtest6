@@ -87,6 +87,88 @@ a { color: inherit; text-decoration: none; }
   padding-bottom: 2px;
 }
 .main-nav a:hover { opacity: 1; }
+
+/* ---------- 브랜드 메가 메뉴 (헤더의 "브랜드"에 마우스를 올리면 펼쳐짐) ---------- */
+.nav-mega { position: relative; display: flex; align-items: center; }
+.nav-mega-trigger {
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  opacity: 0.88;
+  padding-bottom: 2px;
+}
+.nav-mega:hover .nav-mega-trigger { opacity: 1; }
+/* 트리거와 말풍선 사이의 빈 틈도 패널 안에 포함시켜, 마우스가 그 틈을 지날 때
+   :hover가 끊겨 메뉴가 먼저 닫히는 문제를 막는다. */
+.nav-mega-panel {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding-top: 18px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s ease;
+  z-index: 60;
+}
+.nav-mega:hover .nav-mega-panel,
+.nav-mega:focus-within .nav-mega-panel { opacity: 1; visibility: visible; }
+.nav-mega-bubble {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+  padding: 22px 26px 24px;
+  min-width: 540px;
+  color: var(--ink);
+}
+.nav-mega-bubble::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 3px;
+}
+.nav-mega-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--ink-soft);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 14px;
+}
+.nav-mega-grid + .nav-mega-title { margin-top: 20px; }
+.nav-mega-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px 10px;
+}
+.nav-mega-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition: background 0.18s ease;
+}
+.nav-mega-item:hover { background: var(--bg-alt); }
+.nav-mega-logo {
+  width: 46px;
+  height: 34px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.nav-mega-logo img { max-width: 80%; max-height: 70%; object-fit: contain; }
+.nav-mega-name { font-size: 13px; font-weight: 500; color: var(--ink); }
+
 .header-right { display: flex; align-items: center; gap: 18px; }
 .menu-btn { display: none; }
 .lang-btn {

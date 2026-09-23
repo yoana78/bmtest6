@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="./favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>수입브랜드 | (주)부명 BOOMYUNG</title>
-    <meta name="description" content="니나오토슨, 도노, 리플렉스, 설퍼딘, 펫스테이지 — (주)부명이 국내에 유통하는 수입 반려동물 브랜드를 소개합니다." />
+    <title>파트너·네트워크 | (주)부명 BOOMYUNG</title>
+    <meta name="description" content="(주)부명이 참가한 국내외 박람회와 전국 유통 채널, 지역 대리점 네트워크를 소개합니다." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -21,10 +21,20 @@
       <nav class="main-nav">
         <a href="index.html">홈</a>
         <a href="about.html">회사소개</a>
-        <a href="brands.html">브랜드</a>
-        <a href="imported-brands.html">수입브랜드</a>
+        <a href="manufacturing.html">제조·역량</a>
+        <div class="nav-mega" id="nav-mega">
+          <a href="brands.html" class="nav-mega-trigger">브랜드</a>
+          <div class="nav-mega-panel">
+            <div class="nav-mega-bubble">
+              <div class="nav-mega-title" data-mega-title="own"></div>
+              <div class="nav-mega-grid" id="mega-own"></div>
+              <div class="nav-mega-title" data-mega-title="imported"></div>
+              <div class="nav-mega-grid" id="mega-imported"></div>
+            </div>
+          </div>
+        </div>
         <a href="catalog.html">제품 카탈로그</a>
-        <a href="trust.html">품질·인증</a>
+        <a href="network.html">파트너·네트워크</a>
       </nav>
       <div class="header-right">
         <button class="lang-btn" type="button">EN</button>
@@ -37,17 +47,17 @@
       <nav>
         <a href="index.html">홈</a>
         <a href="about.html">회사소개</a>
+        <a href="manufacturing.html">제조·역량</a>
         <a href="brands.html">브랜드</a>
-        <a href="imported-brands.html">수입브랜드</a>
         <a href="catalog.html">제품 카탈로그</a>
-        <a href="trust.html">품질·인증</a>
+        <a href="network.html">파트너·네트워크</a>
         <a href="contact.html">문의하기</a>
       </nav>
     </div>
 
     <main>
       <section class="page-hero" id="page-hero-root">
-        <img class="hero-bg" src="assets/stock/imported-brands-hero.jpg" alt="" />
+        <img class="hero-bg" src="assets/trust_hero.png" alt="" />
         <div class="wrap">
           <p class="eyebrow"><span></span></p>
           <h1></h1>
@@ -55,8 +65,32 @@
         </div>
       </section>
 
-      <section class="section-pad">
-        <div class="wrap brand-showcase" id="brand-showcase"></div>
+
+
+      <section class="section-pad" id="expo-root">
+        <div class="wrap">
+          <p class="eyebrow"><span>GLOBAL EXHIBITION</span></p>
+          <h2 class="section-title"></h2>
+          <div id="expo-list"></div>
+        </div>
+      </section>
+
+      <section class="section-pad" id="retail-root" style="background: var(--bg-alt)">
+        <div class="wrap">
+          <p class="eyebrow"><span>PARTNERSHIP</span></p>
+          <h2 class="section-title"></h2>
+          <p class="section-body"></p>
+          <div class="logo-flow-grid" id="retail-grid"></div>
+        </div>
+      </section>
+
+      <section class="section-pad" id="distributors-root">
+        <div class="wrap">
+          <p class="eyebrow"><span>PARTNERSHIP</span></p>
+          <h2 class="section-title"></h2>
+          <p class="section-body"></p>
+          <div class="logo-flow-grid" id="distributor-grid"></div>
+        </div>
       </section>
     </main>
 
@@ -73,8 +107,9 @@
             <div class="foot-col">
               <h4>기업 안내</h4>
               <a href="about.html">회사소개</a>
+              <a href="manufacturing.html">제조·역량</a>
               <a href="brands.html">브랜드</a>
-              <a href="trust.html">품질·인증</a>
+              <a href="network.html">파트너·네트워크</a>
             </div>
             <div class="foot-col">
               <h4>비즈니스</h4>
@@ -94,6 +129,6 @@
     </footer>
 
     <script src="./js/common.js"></script>
-    <script src="./js/imported-brands.js"></script>
+    <script src="./js/network.js"></script>
   </body>
 </html>
