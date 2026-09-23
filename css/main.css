@@ -626,7 +626,8 @@ footer.site-footer {
   background: var(--navy-deep);
   padding-top: 90px;
 }
-.page-hero img.hero-bg {
+.page-hero img.hero-bg,
+.page-hero video.hero-bg {
   position: absolute;
   inset: 0;
   width: 100%;
