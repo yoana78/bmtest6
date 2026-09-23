@@ -6,7 +6,8 @@ const SECTIONS = [
   { id: "add-product", label: "신규 제품 추가" },
   { id: "home", label: "홈페이지", endpoint: "/api/content", preview: "index.html" },
   { id: "about", label: "회사소개", endpoint: "/api/about-content", preview: "about.html" },
-  { id: "trust", label: "품질·인증", endpoint: "/api/trust-content", preview: "trust.html" },
+  { id: "manufacturing", label: "제조·역량", endpoint: "/api/manufacturing-content", preview: "manufacturing.html" },
+  { id: "network", label: "파트너·네트워크", endpoint: "/api/network-content", preview: "network.html" },
   { id: "security", label: "보안" },
 ];
 
@@ -575,14 +576,13 @@ async function upsertBrand(fields, existingId) {
   const id = existingId || slugify(data.nameEn || data.nameKo);
   const brand = { id, ...data };
 
-  const ownData = await fetchJson("/api/brands-content");
-  const importedData = await fetchJson("/api/imported-content");
-  ownData.brands = (ownData.brands || []).filter((b) => b.id !== id);
-  importedData.brands = (importedData.brands || []).filter((b) => b.id !== id);
-  if (brand.type === "own") ownData.brands.push(brand);
-  else importedData.brands.push(brand);
-  await putJson("/api/brands-content", ownData);
-  await putJson("/api/imported-content", importedData);
+  // 자사/수입 브랜드는 brands-content 한 문서 안의 두 배열로 관리한다.
+  const brandsDoc = await fetchJson("/api/brands-content");
+  brandsDoc.brands = (brandsDoc.brands || []).filter((b) => b.id !== id);
+  brandsDoc.importedBrands = (brandsDoc.importedBrands || []).filter((b) => b.id !== id);
+  if (brand.type === "own") brandsDoc.brands.push(brand);
+  else brandsDoc.importedBrands.push(brand);
+  await putJson("/api/brands-content", brandsDoc);
 
   const catalogData = await fetchJson("/api/catalog-content");
   catalogData.brands = catalogData.brands || [];
@@ -594,7 +594,7 @@ async function upsertBrand(fields, existingId) {
 
   const homeData = await fetchJson("/api/content");
   homeData.brands = homeData.brands || [];
-  const homeIdx = homeData.brands.findIndex((b) => b.href === `brands.html#${id}`);
+  const homeIdx = homeData.brands.findIndex((b) => b.href === `brands.html#own-${id}`);
   if (brand.type === "own") {
     const teaser = {
       name: brand.nameKo,
@@ -602,7 +602,7 @@ async function upsertBrand(fields, existingId) {
       tagline: brand.descriptionKo,
       taglineEn: brand.descriptionEn,
       logo: brand.logo,
-      href: `brands.html#${id}`,
+      href: `brands.html#own-${id}`,
     };
     if (homeIdx >= 0) homeData.brands[homeIdx] = teaser;
     else homeData.brands.push(teaser);
@@ -615,20 +615,18 @@ async function upsertBrand(fields, existingId) {
 }
 
 async function deleteBrand(id) {
-  const ownData = await fetchJson("/api/brands-content");
-  const importedData = await fetchJson("/api/imported-content");
-  const removed = [...(ownData.brands || []), ...(importedData.brands || [])].filter((b) => b.id === id);
-  ownData.brands = (ownData.brands || []).filter((b) => b.id !== id);
-  importedData.brands = (importedData.brands || []).filter((b) => b.id !== id);
-  await putJson("/api/brands-content", ownData);
-  await putJson("/api/imported-content", importedData);
+  const brandsDoc = await fetchJson("/api/brands-content");
+  const removed = [...(brandsDoc.brands || []), ...(brandsDoc.importedBrands || [])].filter((b) => b.id === id);
+  brandsDoc.brands = (brandsDoc.brands || []).filter((b) => b.id !== id);
+  brandsDoc.importedBrands = (brandsDoc.importedBrands || []).filter((b) => b.id !== id);
+  await putJson("/api/brands-content", brandsDoc);
 
   const catalogData = await fetchJson("/api/catalog-content");
   catalogData.brands = (catalogData.brands || []).filter((b) => b.id !== id);
   await putJson("/api/catalog-content", catalogData);
 
   const homeData = await fetchJson("/api/content");
-  homeData.brands = (homeData.brands || []).filter((b) => b.href !== `brands.html#${id}`);
+  homeData.brands = (homeData.brands || []).filter((b) => b.href !== `brands.html#own-${id}`);
   await putJson("/api/content", homeData);
 
   await cleanupAssets(assetIdsIn(removed));
@@ -648,10 +646,7 @@ async function renderAddBrandForm(panel) {
   panel.innerHTML = "";
   panel.appendChild(el("p", { class: "admin-loading", text: "불러오는 중..." }));
 
-  const [ownData, importedData] = await Promise.all([
-    fetchJson("/api/brands-content").catch(() => ({ brands: [] })),
-    fetchJson("/api/imported-content").catch(() => ({ brands: [] })),
-  ]);
+  const brandsDoc = await fetchJson("/api/brands-content").catch(() => ({ brands: [], importedBrands: [] }));
   panel.innerHTML = "";
 
   const fields = buildBrandFields(null);
@@ -693,8 +688,8 @@ async function renderAddBrandForm(panel) {
   );
 
   const allBrands = [
-    ...(ownData.brands || []).map((b) => ({ ...b, type: "own" })),
-    ...(importedData.brands || []).map((b) => ({ ...b, type: "imported" })),
+    ...(brandsDoc.brands || []).map((b) => ({ ...b, type: "own" })),
+    ...(brandsDoc.importedBrands || []).map((b) => ({ ...b, type: "imported" })),
   ];
   const listWrap = el("div", { class: "admin-list-panel" });
   listWrap.appendChild(el("h3", { class: "media-manager-title", text: `📋 등록된 브랜드 목록 (${allBrands.length}개)` }));
@@ -769,6 +764,8 @@ function buildProductFields(prefill, allBrands, categories) {
   let currentDetailImages = p.detailImages || [];
 
   const buyLink = el("input", { type: "text", placeholder: "https://...", value: p.buyLink || "" });
+  const b2bLink = el("input", { type: "text", placeholder: "https://... (입력하면 B2B 구매하기 버튼이 노출됩니다)", value: p.b2bLink || "" });
+  const itemNo = el("input", { type: "text", placeholder: "예: NO.67332", value: p.itemNo || "" });
   const features = el("textarea", {
     rows: 4,
     placeholder: "예:\n· 생후 2개월 이상 전연령 반려견 사료\n· 가수분해 오리 원료 사용\n· 관절 건강에 도움을 주는 초유 첨가",
@@ -801,11 +798,12 @@ function buildProductFields(prefill, allBrands, categories) {
     el("div", { class: "form-row-2" }, [formField("소속 브랜드 선택", brandSelect, true), formField("제품 카테고리", categorySelect, true)]),
     el("div", { class: "form-row-2" }, [formField("제품명 (한글)", nameKo, true), formField("제품명 (영문)", nameEn)]),
     el("div", { class: "form-row-3" }, [formField("반려동물 구분", petType), formField("제품 규격 / 용량", spec), formField("상품 바코드 / 코드", code)]),
+    formField("품번 (Item No. · 제품 카드 하단에 표시)", itemNo),
     formField("제품 대표 이미지 첨부 (권장 1000×1000 · 잘리지 않게 여백을 두고 맞춤)", mainImage),
     mainPreviewSlot,
     formField("상세정보 페이지 이미지 첨부 (여러 장 가능 · 세로로 긴 이미지도 잘리지 않습니다)", detailImages),
     detailPreview,
-    formField("바로 구매하기 링크 (URL)", buyLink),
+    el("div", { class: "form-row-2" }, [formField("바로 구매하기 링크 (URL)", buyLink), formField("B2B 구매하기 링크 (URL)", b2bLink)]),
     formField("제품 주요 특징 (줄바꿈으로 구분)", features),
     el("div", { class: "form-row-2" }, [formField("유통기한", shelfLife), formField("제조국 / 원산지", origin)]),
     formField("원료 정보", ingredients),
@@ -888,6 +886,8 @@ function buildProductFields(prefill, allBrands, categories) {
         image,
         detailImages: detailUrls,
         buyLink: buyLink.value.trim(),
+        b2bLink: b2bLink.value.trim(),
+        itemNo: itemNo.value.trim(),
         nutrition: buildNutrition(),
       };
     },
@@ -897,6 +897,8 @@ function buildProductFields(prefill, allBrands, categories) {
       spec.value = "";
       code.value = "";
       buyLink.value = "";
+      b2bLink.value = "";
+      itemNo.value = "";
       features.value = "";
       ingredients.value = "";
       mainImage.value = "";
@@ -953,13 +955,12 @@ async function renderAddProductForm(panel) {
   panel.innerHTML = "";
   panel.appendChild(el("p", { class: "admin-loading", text: "불러오는 중..." }));
 
-  const [ownBrands, importedBrands, catalogData] = await Promise.all([
-    fetchJson("/api/brands-content").catch(() => ({ brands: [] })),
-    fetchJson("/api/imported-content").catch(() => ({ brands: [] })),
+  const [brandsDoc, catalogData] = await Promise.all([
+    fetchJson("/api/brands-content").catch(() => ({ brands: [], importedBrands: [] })),
     fetchJson("/api/catalog-content"),
   ]);
   panel.innerHTML = "";
-  const allBrands = [...(ownBrands.brands || []), ...(importedBrands.brands || [])];
+  const allBrands = [...(brandsDoc.brands || []), ...(brandsDoc.importedBrands || [])];
   const brandLabel = Object.fromEntries(allBrands.map((b) => [b.id, b.nameKo]));
   const categories = (catalogData.categories || []).filter((c) => c.id !== "all");
   const products = catalogData.products || [];

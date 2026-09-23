@@ -268,10 +268,10 @@ async function cfFillTranslations(data, schema) {
 const FOOTER_ENDPOINTS = [
   "/api/content",
   "/api/about-content",
-  "/api/trust-content",
+  "/api/manufacturing-content",
+  "/api/network-content",
   "/api/catalog-content",
   "/api/brands-content",
-  "/api/imported-content",
 ];
 
 async function cfSyncFooter(footer, skipEndpoint) {

@@ -76,12 +76,43 @@ function renderGrid() {
         el("div", { class: "brand-tag", text: brandLabels[p.brandId] || p.brandId }),
         el("h4", { text: name }),
         el("div", { class: "spec", text: p.spec }),
+        // 관리자에서 품번(Item No.)을 입력한 제품만 카드 하단에 노출한다
+        p.itemNo ? el("div", { class: "item-no", text: `ITEM NO. ${p.itemNo}` }) : null,
       ]),
     ]);
     card.addEventListener("click", () => openModal(p));
     grid.appendChild(card);
   });
   observeReveals();
+}
+
+// 일반 구매처와 B2B 구매처 버튼. 링크가 저장된 것만 나타난다.
+function buyActions(p, lang) {
+  const isUrl = (v) => /^https?:\/\//i.test((v || "").trim());
+  const buttons = [];
+  if (isUrl(p.buyLink)) {
+    buttons.push(
+      el("a", {
+        class: "pd-buy-btn",
+        href: p.buyLink.trim(),
+        target: "_blank",
+        rel: "noopener noreferrer",
+        text: lang === "en" ? "Buy Now ↗" : "바로 구매하기 ↗",
+      })
+    );
+  }
+  if (isUrl(p.b2bLink)) {
+    buttons.push(
+      el("a", {
+        class: "pd-buy-btn b2b",
+        href: p.b2bLink.trim(),
+        target: "_blank",
+        rel: "noopener noreferrer",
+        text: lang === "en" ? "B2B Purchase ↗" : "B2B 구매하기 ↗",
+      })
+    );
+  }
+  return buttons.length ? el("div", { class: "pd-actions" }, buttons) : null;
 }
 
 function openModal(p) {
@@ -135,12 +166,8 @@ function openModal(p) {
         features.length ? el("ul", { class: "pd-features" }, features.map((f) => el("li", { text: f }))) : null,
         nutritionGrid,
         el("div", { class: "pd-ingredients" }, [el("strong", { text: labels.ingredients }), document.createTextNode(ingredients || "-")]),
-        // 관리자에서 저장한 구매 링크(http/https)가 있을 때만 버튼 노출
-        /^https?:\/\//i.test((p.buyLink || "").trim())
-          ? el("div", { class: "pd-actions" }, [
-              el("a", { class: "pd-buy-btn", href: p.buyLink.trim(), target: "_blank", rel: "noopener noreferrer", text: lang === "en" ? "Buy Now ↗" : "바로 구매하기 ↗" }),
-            ])
-          : null,
+        // 관리자에서 저장한 구매 링크(http/https)가 있을 때만 해당 버튼을 노출한다
+        buyActions(p, lang),
         p.detailImages && p.detailImages.length
           ? el(
               "div",

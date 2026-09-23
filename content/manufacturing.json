@@ -6,8 +6,8 @@
     "titleEn": "We make it ourselves —\nfrom raw material to pack",
     "body": "(주)부명은 펫 전문 식품 공장과 중국 칭다오 벤토나이트 모래 공장을 직접 운영하는 제조 기업입니다. 배합 설계, 생산, 품질 검사, 포장까지 전 공정을 자체 역량으로 책임집니다.",
     "bodyEn": "BOOMYUNG runs its own pet food plant and a bentonite cat-litter plant in Qingdao, China. Formulation, production, quality testing and packing are all handled in-house.",
-    "image": "assets/homad/homad_01.jpg",
-    "video": ""
+    "image": "assets/manufacturing/feed-plant-poster.jpg",
+    "video": "assets/manufacturing/feed-plant.mp4"
   },
   "feedIntro": {
     "eyebrow": "PET FOOD PLANT",
@@ -16,7 +16,8 @@
     "titleEn": "Pet food manufacturing plant",
     "body": "원료 입고 검사부터 배합, 성형, 건조, 자동 포장까지 한 라인에서 처리합니다. ISO 22000 · HACCP 인증 공정으로 운영되며 전 단계가 추적 가능합니다.",
     "bodyEn": "Intake inspection, mixing, forming, drying and automated packing run on one line. The process is ISO 22000 and HACCP certified, and every step is traceable.",
-    "image": "assets/homad/homad_04.jpg"
+    "image": "assets/manufacturing/feed-plant-poster.jpg",
+    "video": "assets/manufacturing/feed-plant.mp4"
   },
   "feedStats": [
     {
@@ -68,24 +69,54 @@
   ],
   "feedGallery": [
     {
+      "image": "assets/manufacturing/feed-hall.jpg",
+      "caption": "펫 전문 식품 생산동 전경",
+      "captionEn": "Pet food production hall"
+    },
+    {
+      "image": "assets/manufacturing/feed-intake.jpg",
+      "caption": "원료 입고 및 검사 구역",
+      "captionEn": "Raw material intake and inspection"
+    },
+    {
+      "image": "assets/homad/homad_04.jpg",
+      "caption": "배합·계량 공정",
+      "captionEn": "Mixing and dosing"
+    },
+    {
+      "image": "assets/manufacturing/feed-kibble.jpg",
+      "caption": "성형 직후 키블 이송",
+      "captionEn": "Kibble transfer after forming"
+    },
+    {
+      "image": "assets/manufacturing/feed-line.jpg",
+      "caption": "건조·냉각 라인",
+      "captionEn": "Drying and cooling line"
+    },
+    {
       "image": "assets/homad/homad_01.jpg",
-      "caption": "성형·건조를 마친 키블 선별 라인",
-      "captionEn": "Kibble sorting line after forming and drying"
+      "caption": "키블 선별 공정",
+      "captionEn": "Kibble sorting"
+    },
+    {
+      "image": "assets/manufacturing/feed-packing.jpg",
+      "caption": "자동 포장 라인",
+      "captionEn": "Automated packing line"
     },
     {
       "image": "assets/homad/homad_02.jpg",
-      "caption": "자동 포장 설비",
-      "captionEn": "Automated packing equipment"
+      "caption": "포장 설비 근접",
+      "captionEn": "Packing equipment"
+    },
+    {
+      "image": "assets/manufacturing/feed-lab.jpg",
+      "caption": "품질 검사 실험실",
+      "captionEn": "Quality control laboratory"
     },
     {
       "image": "assets/homad/homad_03.jpg",
       "caption": "생산 관리 모니터링",
       "captionEn": "Production monitoring"
-    },
-    {
-      "image": "assets/homad/homad_04.jpg",
-      "caption": "배합·계량 공정",
-      "captionEn": "Mixing and dosing process"
     }
   ],
   "certIntro": {
@@ -216,7 +247,8 @@
     "titleEn": "Qingdao bentonite litter plant",
     "body": "중국 칭다오 현지 공장에서 벤토나이트 원광을 직접 가공해 고양이 모래를 생산합니다. 원광 확보부터 분쇄·선별·코팅·포장까지 직접 관리해 응집력과 분진 수준을 일정하게 유지합니다.",
     "bodyEn": "At our plant in Qingdao we process bentonite ore into cat litter ourselves — from ore sourcing through crushing, sorting, coating and packing — keeping clumping strength and dust levels consistent.",
-    "image": "assets/china/qingdao-factory.jpg"
+    "image": "assets/manufacturing/litter-plant-poster.jpg",
+    "video": "assets/manufacturing/litter-plant.mp4"
   },
   "litterCapabilities": [
     {
@@ -243,6 +275,16 @@
       "image": "assets/china/qingdao-factory.jpg",
       "caption": "벤토나이트 원광 가공 라인",
       "captionEn": "Bentonite ore processing line"
+    },
+    {
+      "image": "assets/manufacturing/litter-drying.jpg",
+      "caption": "로터리 건조 공정",
+      "captionEn": "Rotary drying process"
+    },
+    {
+      "image": "assets/manufacturing/litter-grading.jpg",
+      "caption": "입자 선별 공정",
+      "captionEn": "Particle grading"
     },
     {
       "image": "assets/china/qingdao-factory-2.jpg",

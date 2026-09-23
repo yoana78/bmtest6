@@ -212,8 +212,8 @@ const CONTENT_SCHEMA = {
     ],
   },
 
-  trust: {
-    label: "품질·인증",
+  manufacturing: {
+    label: "제조·역량",
     groups: [
       {
         key: "hero",
@@ -221,9 +221,55 @@ const CONTENT_SCHEMA = {
         type: "object",
         fields: [
           { key: "image", label: "배경 사진", type: "image", width: 2560, height: 1440 },
+          { key: "video", label: "배경 영상 (mp4 주소 · 비워두면 사진만 표시)", type: "plain" },
           { key: "eyebrow", label: "작은 라벨", type: "text", size: "13px" },
           { key: "title", label: "페이지 제목", type: "text", size: "24~40px" },
           { key: "body", label: "본문", type: "textarea", size: "14.5px" },
+        ],
+      },
+      {
+        key: "feedIntro",
+        label: "사료 공장 · 섹션 소개",
+        type: "object",
+        fields: [
+          { key: "eyebrow", label: "작은 라벨", type: "plain" },
+          { key: "title", label: "섹션 제목", type: "text", size: "19~26px" },
+          { key: "body", label: "섹션 본문", type: "textarea", size: "13.5px" },
+          { key: "image", label: "대표 사진", type: "image", width: 1920, height: 1080 },
+          { key: "video", label: "대표 영상 (mp4 주소 · 있으면 사진 대신 재생)", type: "plain" },
+        ],
+      },
+      {
+        key: "feedStats",
+        label: "사료 공장 · 핵심 수치",
+        type: "list",
+        itemLabel: (it) => it.value || it.label || "새 항목",
+        newItem: () => ({ value: "", label: "", labelEn: "" }),
+        fields: [
+          { key: "value", label: "수치 / 인증명", type: "plain" },
+          { key: "label", label: "설명", type: "text", size: "12.5px" },
+        ],
+      },
+      {
+        key: "feedCapabilities",
+        label: "사료 공장 · 제조 역량",
+        type: "list",
+        itemLabel: (it) => it.title || "새 역량",
+        newItem: () => ({ title: "", titleEn: "", body: "", bodyEn: "" }),
+        fields: [
+          { key: "title", label: "제목", type: "text", size: "16.5px" },
+          { key: "body", label: "설명", type: "textarea", size: "13.5px" },
+        ],
+      },
+      {
+        key: "feedGallery",
+        label: "사료 공장 · 사진",
+        type: "list",
+        itemLabel: (it) => it.caption || "새 사진",
+        newItem: () => ({ image: "", caption: "", captionEn: "" }),
+        fields: [
+          { key: "image", label: "사진", type: "image", width: 1600, height: 1200 },
+          { key: "caption", label: "설명", type: "text", size: "12.5px" },
         ],
       },
       { key: "certIntro", label: "품질 인증 섹션 제목", type: "object",
@@ -265,6 +311,57 @@ const CONTENT_SCHEMA = {
           { key: "number", label: "등록번호", type: "plain" },
           { key: "title", label: "명칭", type: "text", size: "13.5px" },
           { key: "image", label: "등록증 사진", type: "image", width: 1240, height: 1754 },
+        ],
+      },
+      {
+        key: "litterIntro",
+        label: "칭다오 모래 공장 · 섹션 소개",
+        type: "object",
+        fields: [
+          { key: "eyebrow", label: "작은 라벨", type: "plain" },
+          { key: "title", label: "섹션 제목", type: "text", size: "19~26px" },
+          { key: "body", label: "섹션 본문", type: "textarea", size: "13.5px" },
+          { key: "image", label: "대표 사진", type: "image", width: 1920, height: 1080 },
+          { key: "video", label: "대표 영상 (mp4 주소 · 있으면 사진 대신 재생)", type: "plain" },
+        ],
+      },
+      {
+        key: "litterCapabilities",
+        label: "칭다오 모래 공장 · 제조 역량",
+        type: "list",
+        itemLabel: (it) => it.title || "새 역량",
+        newItem: () => ({ title: "", titleEn: "", body: "", bodyEn: "" }),
+        fields: [
+          { key: "title", label: "제목", type: "text", size: "16.5px" },
+          { key: "body", label: "설명", type: "textarea", size: "13.5px" },
+        ],
+      },
+      {
+        key: "litterGallery",
+        label: "칭다오 모래 공장 · 사진",
+        type: "list",
+        itemLabel: (it) => it.caption || "새 사진",
+        newItem: () => ({ image: "", caption: "", captionEn: "" }),
+        fields: [
+          { key: "image", label: "사진", type: "image", width: 1600, height: 1200 },
+          { key: "caption", label: "설명", type: "text", size: "12.5px" },
+        ],
+      },
+    ],
+  },
+
+  network: {
+    label: "파트너·네트워크",
+    groups: [
+      {
+        key: "hero",
+        label: "상단 배너",
+        type: "object",
+        fields: [
+          { key: "image", label: "배경 사진", type: "image", width: 2560, height: 1440 },
+          { key: "eyebrow", label: "작은 라벨", type: "text", size: "13px" },
+          { key: "title", label: "페이지 제목", type: "text", size: "24~40px" },
+          { key: "body", label: "본문", type: "textarea", size: "14.5px" },
         ],
       },
       { key: "expoIntro", label: "박람회 섹션 제목", type: "object",
