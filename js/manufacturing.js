@@ -35,6 +35,19 @@ function closeLightbox() {
   document.body.style.overflow = "";
 }
 
+// 탭을 백그라운드에 뒀다 돌아오면 브라우저가 배경 영상을 멈춘 채로 두는 일이
+// 있어서, 다시 보일 때 재생을 이어준다.
+function keepBackgroundVideosPlaying() {
+  const resume = () => {
+    if (document.hidden) return;
+    document.querySelectorAll("video.hero-video, video.mfg-video").forEach((v) => {
+      if (v.paused && !v.hidden) v.play().catch(() => {});
+    });
+  };
+  document.addEventListener("visibilitychange", resume);
+  addEventListener("pageshow", resume);
+}
+
 function setupLightbox() {
   const box = document.getElementById("image-lightbox");
   document.getElementById("lightbox-close").addEventListener("click", closeLightbox);
@@ -88,7 +101,8 @@ function renderMedia(rootId, intro) {
   const root = document.getElementById(rootId);
   root.innerHTML = "";
   if (intro && intro.video) {
-    const video = el("video", { class: "mfg-video", muted: "", loop: "", playsinline: "", autoplay: "", preload: "metadata" });
+    // el() 은 빈 문자열을 "값 없음"으로 보고 건너뛰므로 불리언 속성은 true 로 넘긴다.
+    const video = el("video", { class: "mfg-video", muted: true, loop: true, playsinline: true, autoplay: true, preload: "metadata" });
     if (intro.image) video.poster = intro.image;
     video.src = intro.video;
     video.muted = true;
@@ -195,6 +209,7 @@ function render(content, newLang) {
 (async function init() {
   setupHeaderScroll();
   setupLightbox();
+  keepBackgroundVideosPlaying();
   const content = await loadContent("/api/manufacturing-content", "content/manufacturing.json");
   setupLangToggle((newLang) => render(content, newLang));
 })();
