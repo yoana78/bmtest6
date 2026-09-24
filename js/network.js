@@ -45,6 +45,38 @@ function renderLogoSection(rootId, gridId, intro, list, muted) {
   });
 }
 
+// 수출 섹션: 스크롤 진행도를 --export-p 로 흘려보내 배경/카피/항로를 함께 움직인다.
+function setupExportStory() {
+  const root = document.getElementById("export-root");
+  const stage = root.querySelector(".export-stage");
+  let raf = 0;
+  const update = () => {
+    raf = 0;
+    const header = innerWidth <= 760 ? 72 : 88;
+    const travel = (root.offsetHeight - stage.offsetHeight) * 0.72;
+    const p = Math.max(0, Math.min(1, (header - root.getBoundingClientRect().top) / travel));
+    root.style.setProperty("--export-p", p);
+  };
+  const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+  addEventListener("scroll", onScroll, { passive: true });
+  addEventListener("resize", onScroll);
+  update();
+}
+
+function renderExport(data) {
+  const root = document.getElementById("export-root");
+  if (data.image) root.querySelector(".export-background").src = data.image;
+  root.querySelector(".story-eyebrow").textContent = t(data, "eyebrow", lang);
+  root.querySelector(".export-copy h2").innerHTML = "";
+  t(data, "title", lang).split(String.fromCharCode(10)).forEach((line, i, all) => {
+    const h2 = root.querySelector(".export-copy h2");
+    h2.appendChild(document.createTextNode(line));
+    if (i < all.length - 1) h2.appendChild(document.createElement("br"));
+  });
+  root.querySelector(".export-copy p").textContent = t(data, "body", lang);
+  root.querySelector(".export-btn").textContent = `${t(data, "button", lang)} ↗`;
+}
+
 function render(content, newLang) {
   lang = newLang;
   renderFooter(content.footer, lang);
@@ -52,6 +84,7 @@ function render(content, newLang) {
   renderExhibitions(content.expoIntro, content.exhibitions);
   renderLogoSection("retail-root", "retail-grid", content.retailIntro, content.retailers, false);
   renderLogoSection("distributors-root", "distributor-grid", content.distributorIntro, content.distributors, true);
+  renderExport(content.export || {});
   observeReveals();
 }
 
@@ -59,4 +92,5 @@ function render(content, newLang) {
   setupHeaderScroll();
   const content = await loadContent("/api/network-content", "content/network.json");
   setupLangToggle((newLang) => render(content, newLang));
+  setupExportStory();
 })();

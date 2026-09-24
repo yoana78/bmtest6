@@ -240,17 +240,6 @@ const CONTENT_SCHEMA = {
         ],
       },
       {
-        key: "feedStats",
-        label: "사료 공장 · 핵심 수치",
-        type: "list",
-        itemLabel: (it) => it.value || it.label || "새 항목",
-        newItem: () => ({ value: "", label: "", labelEn: "" }),
-        fields: [
-          { key: "value", label: "수치 / 인증명", type: "plain" },
-          { key: "label", label: "설명", type: "text", size: "12.5px" },
-        ],
-      },
-      {
         key: "feedCapabilities",
         label: "사료 공장 · 제조 역량",
         type: "list",
@@ -327,7 +316,7 @@ const CONTENT_SCHEMA = {
       },
       {
         key: "litterCapabilities",
-        label: "칭다오 모래 공장 · 제조 역량",
+        label: "칭다오 모래 공장 · 제조 단계 (순서대로 표시)",
         type: "list",
         itemLabel: (it) => it.title || "새 역량",
         newItem: () => ({ title: "", titleEn: "", body: "", bodyEn: "" }),
@@ -338,7 +327,7 @@ const CONTENT_SCHEMA = {
       },
       {
         key: "litterGallery",
-        label: "칭다오 모래 공장 · 사진",
+        label: "칭다오 모래 공장 · 제조 공정 8단계 사진",
         type: "list",
         itemLabel: (it) => it.caption || "새 사진",
         newItem: () => ({ image: "", caption: "", captionEn: "" }),
@@ -411,6 +400,18 @@ const CONTENT_SCHEMA = {
         fields: [
           { key: "name", label: "이름", type: "plain" },
           { key: "logo", label: "로고", type: "image", width: 400, height: 200, fit: "contain" },
+        ],
+      },
+      {
+        key: "export",
+        label: "수출 파트너십 섹션 (페이지 맨 아래)",
+        type: "object",
+        fields: [
+          { key: "image", label: "배경 사진", type: "image", width: 2560, height: 1440 },
+          { key: "eyebrow", label: "작은 영문 라벨", type: "plain" },
+          { key: "title", label: "섹션 제목 (줄바꿈 반영)", type: "textarea", size: "34~64px" },
+          { key: "body", label: "본문 (줄바꿈 반영)", type: "textarea", size: "15px" },
+          { key: "button", label: "버튼 문구", type: "text", size: "13.5px" },
         ],
       },
     ],

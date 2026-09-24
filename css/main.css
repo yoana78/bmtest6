@@ -21,13 +21,15 @@
 }
 
 * { box-sizing: border-box; }
-html { overflow-x: hidden; }
+/* clip(=hidden과 달리 스크롤 컨테이너를 만들지 않음)이라야 하위의
+   position: sticky 가 뷰포트 기준으로 동작한다. */
+html { overflow-x: clip; }
 body {
   margin: 0;
   /* .phi-item의 hover 배경이 100vw로 뷰포트 전체 폭을 채우는데, 세로 스크롤바가
      있으면 100vw가 실제 보이는 폭보다 스크롤바 두께만큼 더 커져서 가로 스크롤이
-     생긴다 — 그 미세한 초과분을 여기서 숨긴다. */
-  overflow-x: hidden;
+     생긴다 — 그 미세한 초과분을 여기서 숨긴다. clip 이어야 sticky 가 살아있다. */
+  overflow-x: clip;
   background: var(--bg);
   color: var(--ink);
   font-family: var(--sans);

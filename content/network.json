@@ -186,6 +186,16 @@
       "logo": "assets/pet-retail/petmart.png"
     }
   ],
+  "export": {
+    "image": "assets/network/export-port.jpg",
+    "eyebrow": "FROM KOREA, TO THE WORLD",
+    "title": "한국에서 시작한 진심,\n세계의 일상으로.",
+    "titleEn": "Care that begins here.\nReaching the world.",
+    "body": "믿을 수 있는 펫 케어를 더 넓은 세상으로.\n부명과 함께 성장할 글로벌 파트너를 기다립니다.",
+    "bodyEn": "Connecting trusted pet care with partners around the world.",
+    "button": "파트너십 문의하기",
+    "buttonEn": "Become a partner"
+  },
   "footer": {
     "company": "(주)부명 BOOMYUNG",
     "address": "경기도 구리시 건원대로34번길 19 306",

@@ -55,25 +55,27 @@ function renderSectionIntro(rootId, eyebrowId, intro) {
   root.querySelector(".section-body").textContent = t(intro, "body", lang);
 }
 
-function renderStats(rootId, list) {
-  const root = document.getElementById(rootId);
-  root.innerHTML = "";
-  (list || []).forEach((s) => {
-    root.appendChild(
-      el("div", { class: "mfg-stat", "data-reveal": "" }, [
-        el("strong", { text: s.value }),
-        el("span", { text: t(s, "label", lang) }),
-      ])
-    );
-  });
-}
-
 function renderCapabilities(rootId, list) {
   const root = document.getElementById(rootId);
   root.innerHTML = "";
   (list || []).forEach((c) => {
     root.appendChild(
       el("div", { class: "mfg-capability", "data-reveal": "" }, [
+        el("h3", { text: t(c, "title", lang) }),
+        el("p", { text: t(c, "body", lang) }),
+      ])
+    );
+  });
+}
+
+// 모래 공장 제조 단계: 번호가 붙은 카드가 화살표로 이어진다.
+function renderSteps(rootId, list) {
+  const root = document.getElementById(rootId);
+  root.innerHTML = "";
+  (list || []).forEach((c, i) => {
+    root.appendChild(
+      el("div", { class: "mfg-step", "data-reveal": "" }, [
+        el("span", { class: "mfg-step-num", text: `STEP ${String(i + 1).padStart(2, "0")}` }),
         el("h3", { text: t(c, "title", lang) }),
         el("p", { text: t(c, "body", lang) }),
       ])
@@ -97,7 +99,7 @@ function renderMedia(rootId, intro) {
   }
 }
 
-function renderGallery(rootId, list, captionFallback) {
+function renderGallery(rootId, list, captionFallback, numbered) {
   const root = document.getElementById(rootId);
   root.innerHTML = "";
   (list || []).forEach((item) => {
@@ -107,6 +109,7 @@ function renderGallery(rootId, list, captionFallback) {
     const card = el("figure", { class: "mfg-gallery-item clickable", "data-reveal": "" }, [
       el("img", { src, alt: caption || captionFallback, loading: "lazy" }),
     ]);
+    if (numbered) card.appendChild(el("span", { class: "mfg-gallery-step", text: String(root.children.length + 1).padStart(2, "0") }));
     if (caption) card.appendChild(el("figcaption", { text: caption }));
     card.addEventListener("click", () => openLightbox(src, caption || captionFallback, caption));
     root.appendChild(card);
@@ -174,7 +177,6 @@ function render(content, newLang) {
   renderPageHero(content.hero);
 
   renderSectionIntro("feed-root", "feed-eyebrow", content.feedIntro);
-  renderStats("feed-stats", content.feedStats);
   renderMedia("feed-media", content.feedIntro);
   renderCapabilities("feed-capabilities", content.feedCapabilities);
   renderGallery("feed-gallery", content.feedGallery, t(content.feedIntro, "title", lang));
@@ -184,8 +186,8 @@ function render(content, newLang) {
 
   renderSectionIntro("litter-root", "litter-eyebrow", content.litterIntro);
   renderMedia("litter-media", content.litterIntro);
-  renderCapabilities("litter-capabilities", content.litterCapabilities);
-  renderGallery("litter-gallery", content.litterGallery, t(content.litterIntro, "title", lang));
+  renderSteps("litter-capabilities", content.litterCapabilities);
+  renderGallery("litter-gallery", content.litterGallery, t(content.litterIntro, "title", lang), true);
 
   observeReveals();
 }

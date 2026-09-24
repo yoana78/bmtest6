@@ -6,8 +6,8 @@
     "titleEn": "We make it ourselves —\nfrom raw material to pack",
     "body": "(주)부명은 펫 전문 식품 공장과 중국 칭다오 벤토나이트 모래 공장을 직접 운영하는 제조 기업입니다. 배합 설계, 생산, 품질 검사, 포장까지 전 공정을 자체 역량으로 책임집니다.",
     "bodyEn": "BOOMYUNG runs its own pet food plant and a bentonite cat-litter plant in Qingdao, China. Formulation, production, quality testing and packing are all handled in-house.",
-    "image": "assets/manufacturing/feed-plant-poster.jpg",
-    "video": "assets/manufacturing/feed-plant.mp4"
+    "image": "assets/manufacturing/mfg-hero-poster.jpg",
+    "video": "assets/manufacturing/mfg-hero.mp4"
   },
   "feedIntro": {
     "eyebrow": "PET FOOD PLANT",
@@ -19,28 +19,6 @@
     "image": "assets/manufacturing/feed-plant-poster.jpg",
     "video": "assets/manufacturing/feed-plant.mp4"
   },
-  "feedStats": [
-    {
-      "value": "1995",
-      "label": "설립",
-      "labelEn": "Founded"
-    },
-    {
-      "value": "ISO 22000",
-      "label": "식품안전경영시스템",
-      "labelEn": "Food Safety Management"
-    },
-    {
-      "value": "HACCP",
-      "label": "위해요소 중점관리",
-      "labelEn": "Hazard Analysis Critical Control"
-    },
-    {
-      "value": "100%",
-      "label": "자체 배합 설계",
-      "labelEn": "In-house Formulation"
-    }
-  ],
   "feedCapabilities": [
     {
       "title": "자체 배합 설계",
@@ -94,7 +72,7 @@
       "captionEn": "Drying and cooling line"
     },
     {
-      "image": "assets/homad/homad_01.jpg",
+      "image": "assets/manufacturing/feed-screen.jpg",
       "caption": "키블 선별 공정",
       "captionEn": "Kibble sorting"
     },
@@ -258,43 +236,64 @@
       "bodyEn": "Sourcing bentonite ore at origin keeps both quality and supply stable."
     },
     {
-      "title": "분쇄·선별 공정",
-      "titleEn": "Crushing & sorting",
-      "body": "입자 크기를 규격별로 선별해 제품별 응집력과 사용감을 맞춥니다.",
-      "bodyEn": "Particles are graded by size so each product hits its target clumping and feel."
+      "title": "분쇄·정량 배합",
+      "titleEn": "Crushing & batching",
+      "body": "원광을 규격 입도로 분쇄하고 계량 설비로 배합비를 일정하게 맞춥니다.",
+      "bodyEn": "Ore is milled to spec and batched on load cells so every mix is identical."
+    },
+    {
+      "title": "조립·건조 공정",
+      "titleEn": "Granulating & drying",
+      "body": "수분을 조절해 입자를 조립한 뒤 로터리 건조기로 균일하게 말려 응집력을 확보합니다.",
+      "bodyEn": "Granules are formed under controlled moisture, then dried evenly for reliable clumping."
     },
     {
       "title": "저분진 관리",
       "titleEn": "Low-dust control",
-      "body": "코팅과 집진 설비로 분진을 관리해 반려동물과 보호자의 호흡 부담을 줄입니다.",
-      "bodyEn": "Coating and dust-collection equipment keep airborne dust down for pets and owners alike."
+      "body": "코팅과 다단 집진 설비로 분진을 관리해 반려동물과 보호자의 호흡 부담을 줄입니다.",
+      "bodyEn": "Coating and multi-stage dust collection keep airborne dust down for pets and owners alike."
     }
   ],
   "litterGallery": [
     {
-      "image": "assets/china/qingdao-factory.jpg",
-      "caption": "벤토나이트 원광 가공 라인",
-      "captionEn": "Bentonite ore processing line"
+      "image": "assets/manufacturing/lt-1-intake.jpg",
+      "caption": "원료 입고 및 이물질 선별",
+      "captionEn": "Raw material intake and foreign matter removal"
     },
     {
-      "image": "assets/manufacturing/litter-drying.jpg",
-      "caption": "로터리 건조 공정",
-      "captionEn": "Rotary drying process"
+      "image": "assets/manufacturing/lt-2-mill.jpg",
+      "caption": "원료 분쇄 및 정량 배합",
+      "captionEn": "Milling and gravimetric batching"
     },
     {
-      "image": "assets/manufacturing/litter-grading.jpg",
-      "caption": "입자 선별 공정",
-      "captionEn": "Particle grading"
+      "image": "assets/manufacturing/lt-3-mix.jpg",
+      "caption": "혼합 및 수분 조절",
+      "captionEn": "Mixing and moisture control"
     },
     {
-      "image": "assets/china/qingdao-factory-2.jpg",
-      "caption": "건조·선별 설비",
-      "captionEn": "Drying and grading equipment"
+      "image": "assets/manufacturing/lt-4-granulate.jpg",
+      "caption": "입자 과립 성형 (압출·조립)",
+      "captionEn": "Granule forming (extrusion / granulation)"
     },
     {
-      "image": "assets/china/qingdao-factory-3.jpg",
-      "caption": "현장 품질 확인",
-      "captionEn": "On-site quality check"
+      "image": "assets/manufacturing/lt-5-dry.jpg",
+      "caption": "고온 열풍 건조",
+      "captionEn": "High-temperature hot air drying"
+    },
+    {
+      "image": "assets/manufacturing/lt-6-coat.jpg",
+      "caption": "냉각 및 기능성 코팅",
+      "captionEn": "Cooling and functional coating"
+    },
+    {
+      "image": "assets/manufacturing/lt-7-screen.jpg",
+      "caption": "다단 체거름 및 정밀 집진 (제진)",
+      "captionEn": "Multi-deck screening and fine dust collection"
+    },
+    {
+      "image": "assets/manufacturing/lt-8-pack.jpg",
+      "caption": "자동 계량 및 밀봉 포장",
+      "captionEn": "Automatic weighing and sealed packing"
     }
   ],
   "footer": {
