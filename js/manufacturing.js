@@ -113,7 +113,7 @@ function renderMedia(rootId, intro) {
   }
 }
 
-function renderGallery(rootId, list, captionFallback, numbered) {
+function renderGallery(rootId, list, captionFallback) {
   const root = document.getElementById(rootId);
   root.innerHTML = "";
   (list || []).forEach((item) => {
@@ -121,9 +121,8 @@ function renderGallery(rootId, list, captionFallback, numbered) {
     if (!src) return;
     const caption = typeof item === "string" ? "" : t(item, "caption", lang);
     const card = el("figure", { class: "mfg-gallery-item clickable", "data-reveal": "" }, [
-      el("img", { src, alt: caption || captionFallback, loading: "lazy" }),
+      el("div", { class: "mfg-gallery-thumb" }, [el("img", { src, alt: caption || captionFallback, loading: "lazy" })]),
     ]);
-    if (numbered) card.appendChild(el("span", { class: "mfg-gallery-step", text: String(root.children.length + 1).padStart(2, "0") }));
     if (caption) card.appendChild(el("figcaption", { text: caption }));
     card.addEventListener("click", () => openLightbox(src, caption || captionFallback, caption));
     root.appendChild(card);
@@ -201,7 +200,7 @@ function render(content, newLang) {
   renderSectionIntro("litter-root", "litter-eyebrow", content.litterIntro);
   renderMedia("litter-media", content.litterIntro);
   renderSteps("litter-capabilities", content.litterCapabilities);
-  renderGallery("litter-gallery", content.litterGallery, t(content.litterIntro, "title", lang), true);
+  renderGallery("litter-gallery", content.litterGallery, t(content.litterIntro, "title", lang));
 
   observeReveals();
 }
