@@ -65,19 +65,21 @@
         </div>
       </section>
 
-      <section class="section-pad">
+      <section class="section-pad brands-section">
         <div class="wrap">
           <!-- 자사 / 수입 브랜드를 한 페이지에서 보여주고, 탭으로 걸러본다 -->
-          <div class="brand-filter-bar" id="brand-filter">
-            <button class="brand-filter-btn active" type="button" data-filter="all">
-              <span class="label"></span><span class="count"></span>
-            </button>
-            <button class="brand-filter-btn" type="button" data-filter="own">
-              <span class="label"></span><span class="count"></span>
-            </button>
-            <button class="brand-filter-btn" type="button" data-filter="imported">
-              <span class="label"></span><span class="count"></span>
-            </button>
+          <div class="brand-filter-wrap">
+            <div class="brand-filter-bar" id="brand-filter">
+              <button class="brand-filter-btn active" type="button" data-filter="all">
+                <span class="label"></span><span class="count"></span>
+              </button>
+              <button class="brand-filter-btn" type="button" data-filter="own">
+                <span class="label"></span><span class="count"></span>
+              </button>
+              <button class="brand-filter-btn" type="button" data-filter="imported">
+                <span class="label"></span><span class="count"></span>
+              </button>
+            </div>
           </div>
 
           <div class="brand-group" id="own-group">
@@ -88,7 +90,7 @@
               </div>
               <p class="brand-group-desc"></p>
             </div>
-            <div class="brand-card-grid" id="own-grid"></div>
+            <div class="brand-own-grid" id="own-grid"></div>
           </div>
 
           <div class="brand-group" id="imported-group">
@@ -99,7 +101,7 @@
               </div>
               <p class="brand-group-desc"></p>
             </div>
-            <div class="brand-card-grid" id="imported-grid"></div>
+            <div class="brand-imported-grid" id="imported-grid"></div>
           </div>
         </div>
       </section>

@@ -1,27 +1,37 @@
 // 자사 브랜드와 수입 브랜드를 한 페이지에서 보여준다.
 // 두 목록 모두 brands-content 문서 하나에 들어 있고(brands / importedBrands),
-// 상단 탭으로 전체 / 자사 / 수입을 걸러본다.
+// 히어로 아래에 떠 있는 탭 바로 전체 / 자사 / 수입을 걸러본다.
 let filter = "all";
+let productCounts = {};
 
 const GROUP_COPY = {
   own: {
     title: "부명 자사 프리미엄 브랜드",
-    titleEn: "BOOMYUNG Premium Brands",
-    desc: "자체 R&D와 직영 제조 공장에서 원칙을 지켜 생산하는 대한민국 펫 케어 브랜드입니다.",
+    titleEn: "In-House Premium Brands",
+    desc: "자체 R&D 연구소와 직영 제조 공장에서 원칙을 지켜 생산하는 대한민국 펫 케어 브랜드입니다.",
     descEn: "Korean pet care brands developed in our own R&D lab and produced in our own plants.",
   },
   imported: {
-    title: "해외 수입 브랜드",
-    titleEn: "Global Imported Brands",
-    desc: "부명이 직접 선별해 국내에 공급하는 해외 프리미엄 브랜드입니다.",
-    descEn: "Premium overseas brands hand-picked by BOOMYUNG for the Korean market.",
+    title: "해외 엄선 수입 브랜드",
+    titleEn: "Global Partner Brands",
+    desc: "스웨덴, 미국 등 전 세계에서 품질과 전문성을 인정받아 부명이 공식 수입·공급하는 글로벌 파트너 브랜드입니다.",
+    descEn: "Globally renowned pet brands officially imported and distributed with strict quality verification.",
   },
 };
 
 const FILTER_LABELS = {
   all: { ko: "전체 브랜드", en: "All Brands" },
-  own: { ko: "자사 브랜드", en: "Our Brands" },
-  imported: { ko: "수입 브랜드", en: "Imported Brands" },
+  own: { ko: "자사 프리미엄 브랜드", en: "In-House Brands" },
+  imported: { ko: "해외 수입 브랜드", en: "Imported Brands" },
+};
+
+// 수입 브랜드 원산지 표기 (윈도우에서 국기 이모지가 글자로 깨져 국가명만 쓴다)
+const ORIGINS = {
+  ninaottosson: { ko: "스웨덴", en: "Sweden" },
+  dono: { ko: "중국", en: "China" },
+  reflex: { ko: "터키", en: "Turkey" },
+  sulfodene: { ko: "미국", en: "USA" },
+  petstage: { ko: "미국", en: "USA" },
 };
 
 function renderPageHero(data, lang) {
@@ -42,38 +52,80 @@ function renderFilterBar(lang, ownCount, importedCount) {
   });
 }
 
-function renderGroup(groupId, gridId, list, copy, anchorPrefix, lang) {
+function groupHead(groupId, copy, lang) {
   const group = document.getElementById(groupId);
   group.querySelector(".brand-group-title").textContent = lang === "en" ? copy.titleEn : copy.title;
   group.querySelector(".brand-group-desc").textContent = lang === "en" ? copy.descEn : copy.desc;
+}
 
-  const grid = document.getElementById(gridId);
+function logoBox(b, name, cls) {
+  return el("div", { class: cls }, b.logo ? [el("img", { src: b.logo, alt: name })] : [el("span", { class: "logo-text", text: name })]);
+}
+
+function cardFooter(count, lang, fallbackKo, fallbackEn, linkKo, linkEn) {
+  const countText = count > 0
+    ? (lang === "en" ? `${count} Products` : `등록 제품 ${count}개`)
+    : (lang === "en" ? fallbackEn : fallbackKo);
+  return el("div", { class: "brand-card-foot" }, [
+    el("span", { class: "brand-count", text: countText }),
+    el("span", { class: "brand-arrow", text: `${lang === "en" ? linkEn : linkKo} →` }),
+  ]);
+}
+
+// 자사 브랜드: 2열 쇼케이스 카드
+function renderOwn(list, lang) {
+  const grid = document.getElementById("own-grid");
   grid.innerHTML = "";
-  const catalogLabel = lang === "en" ? "View in product catalog" : "제품 카탈로그에서 보기";
   list.forEach((b) => {
     const name = lang === "en" ? b.nameEn || b.nameKo : b.nameKo;
-    const desc = lang === "en" ? b.descriptionEn || b.descriptionKo : b.descriptionKo;
+    const sub = lang === "en" ? b.nameKo : b.nameEn;
     const tagline = (lang === "en" ? b.taglineEn : b.tagline) || b.tagline;
+    const desc = lang === "en" ? b.descriptionEn || b.descriptionKo : b.descriptionKo;
     grid.appendChild(
-      el(
-        "a",
-        {
-          class: "brand-card",
-          id: `${anchorPrefix}-${b.id}`,
-          href: `catalog.html?brand=${b.id}`,
-          style: `--accent:${b.color || "#1B3A91"}`,
-          "data-reveal": "",
-        },
-        [
-          el("div", { class: "brand-card-logo" }, b.logo ? [el("img", { src: b.logo, alt: name })] : [el("span", { text: name })]),
-          el("div", { class: "brand-card-body" }, [
-            tagline ? el("p", { class: "brand-card-tagline", text: tagline }) : null,
-            el("h3", { class: "brand-card-name", text: name }),
-            el("p", { class: "brand-card-desc", text: desc }),
+      el("a", {
+        class: "brand-own-card", id: `own-${b.id}`, href: `catalog.html?brand=${b.id}`,
+        style: `--accent:${b.color || "#1B3A91"}`, "data-reveal": "",
+      }, [
+        el("div", {}, [
+          logoBox(b, name, "brand-own-logo"),
+          el("h3", { class: "brand-own-name" }, [
+            el("span", { text: name }),
+            sub ? el("small", { text: sub }) : null,
           ]),
-          el("span", { class: "brand-card-link", text: `${catalogLabel} →` }),
-        ]
-      )
+          tagline ? el("span", { class: "brand-own-tagline", text: tagline }) : null,
+          el("p", { class: "brand-own-desc", text: desc }),
+        ]),
+        cardFooter(productCounts[b.id] || 0, lang, "품질 인증", "Verified Quality", "제품 라인업 보기", "View Products"),
+      ])
+    );
+  });
+}
+
+// 수입 브랜드: 3열 카드 + 원산지 칩
+function renderImported(list, lang) {
+  const grid = document.getElementById("imported-grid");
+  grid.innerHTML = "";
+  list.forEach((b) => {
+    const name = lang === "en" ? b.nameEn || b.nameKo : b.nameKo;
+    const tagline = (lang === "en" ? b.taglineEn : b.tagline) || b.tagline;
+    const desc = lang === "en" ? b.descriptionEn || b.descriptionKo : b.descriptionKo;
+    const origin = ORIGINS[b.id];
+    grid.appendChild(
+      el("a", {
+        class: "brand-imported-card", id: `imported-${b.id}`, href: `catalog.html?brand=${b.id}`,
+        "data-reveal": "",
+      }, [
+        el("div", {}, [
+          el("div", { class: "brand-imported-top" }, [
+            logoBox(b, name, "brand-imported-logo"),
+            origin ? el("span", { class: "brand-origin", text: lang === "en" ? origin.en : origin.ko }) : null,
+          ]),
+          el("h3", { class: "brand-imported-name", text: name }),
+          tagline ? el("span", { class: "brand-imported-tagline", text: tagline }) : null,
+          el("p", { class: "brand-imported-desc", text: desc }),
+        ]),
+        cardFooter(productCounts[b.id] || 0, lang, "글로벌 정품", "Global Partner", "자세히 보기", "Explore"),
+      ])
     );
   });
 }
@@ -91,8 +143,10 @@ function render(content, lang) {
   const imported = content.importedBrands || [];
 
   renderFilterBar(lang, own.length, imported.length);
-  renderGroup("own-group", "own-grid", own, GROUP_COPY.own, "own", lang);
-  renderGroup("imported-group", "imported-grid", imported, GROUP_COPY.imported, "imported", lang);
+  groupHead("own-group", GROUP_COPY.own, lang);
+  groupHead("imported-group", GROUP_COPY.imported, lang);
+  renderOwn(own, lang);
+  renderImported(imported, lang);
   applyFilter();
   observeReveals();
 }
@@ -109,7 +163,22 @@ function render(content, lang) {
     applyFilter();
   });
 
-  setupLangToggle((lang) => render(content, lang));
+  let activeLang = currentLang();
+  setupLangToggle((lang) => {
+    activeLang = lang;
+    render(content, lang);
+  });
+
+  // 카드에 표시할 브랜드별 제품 수는 카탈로그 문서에서 따로 세어 채운다.
+  try {
+    const catalog = await loadContent("/api/catalog-content", "content/catalog.json");
+    (catalog.products || []).forEach((p) => {
+      productCounts[p.brandId] = (productCounts[p.brandId] || 0) + 1;
+    });
+    render(content, activeLang);
+  } catch (e) {
+    /* 제품 수는 없어도 카드가 그려지므로 무시한다 */
+  }
 
   // 헤더 메뉴에서 특정 브랜드를 눌러 들어온 경우 해당 카드로 스크롤한다.
   if (location.hash) {
