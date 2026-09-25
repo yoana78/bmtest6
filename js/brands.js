@@ -19,10 +19,11 @@ const GROUP_COPY = {
   },
 };
 
+// short: 모바일에서 탭 3개가 한 줄에 들어가도록 쓰는 짧은 라벨
 const FILTER_LABELS = {
-  all: { ko: "전체 브랜드", en: "All Brands" },
-  own: { ko: "자사 프리미엄 브랜드", en: "In-House Brands" },
-  imported: { ko: "해외 수입 브랜드", en: "Imported Brands" },
+  all: { ko: "전체 브랜드", en: "All Brands", shortKo: "전체", shortEn: "All" },
+  own: { ko: "자사 프리미엄 브랜드", en: "In-House Brands", shortKo: "자사", shortEn: "In-House" },
+  imported: { ko: "해외 수입 브랜드", en: "Imported Brands", shortKo: "수입", shortEn: "Imported" },
 };
 
 // 수입 브랜드 원산지 표기 (윈도우에서 국기 이모지가 글자로 깨져 국가명만 쓴다)
@@ -46,7 +47,9 @@ function renderFilterBar(lang, ownCount, importedCount) {
   const counts = { all: ownCount + importedCount, own: ownCount, imported: importedCount };
   document.querySelectorAll(".brand-filter-btn").forEach((btn) => {
     const key = btn.dataset.filter;
-    btn.querySelector(".label").textContent = FILTER_LABELS[key][lang === "en" ? "en" : "ko"];
+    const labels = FILTER_LABELS[key];
+    btn.querySelector(".label").textContent = lang === "en" ? labels.en : labels.ko;
+    btn.querySelector(".label-short").textContent = lang === "en" ? labels.shortEn : labels.shortKo;
     btn.querySelector(".count").textContent = counts[key];
     btn.classList.toggle("active", key === filter);
   });
