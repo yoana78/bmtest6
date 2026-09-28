@@ -355,13 +355,14 @@ async function uploadProductImageTransparent(file, width, height, { maxBase64Len
 }
 
 // 어드민 폼에서 영문 항목을 비워두면 저장 시 한글 값을 자동 번역해 채운다.
-async function translateText(text) {
+// mode: "name" 이면 브랜드명처럼 뜻을 옮기지 않고 영문 표기로 바꾼다.
+async function translateText(text, mode) {
   if (!text || !text.trim()) return "";
   try {
     const res = await fetch("/api/translate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text }),
+      body: JSON.stringify({ text, mode }),
     });
     if (!res.ok) return "";
     const { translated } = await res.json();
@@ -475,7 +476,7 @@ function buildBrandFields(prefill) {
   const p = prefill || {};
   const groupName = "brand-type-" + ++modalCounter;
   const nameKo = el("input", { type: "text", placeholder: "예: 웰젠, 부명케어", value: p.nameKo || "" });
-  const nameEn = el("input", { type: "text", placeholder: "예: WELLZEN", value: p.nameEn || "" });
+  const nameEn = el("input", { type: "text", placeholder: "비워두면 자동으로 채워집니다", value: p.nameEn || "" });
   const typeOwn = el("input", { type: "radio", name: groupName, value: "own", checked: (p.type || "own") === "own" });
   const typeImported = el("input", { type: "radio", name: groupName, value: "imported", checked: p.type === "imported" });
   const tagline = el("input", { type: "text", placeholder: "예: 건강하고 행복한 반려생활", value: p.tagline || "" });
@@ -505,7 +506,7 @@ function buildBrandFields(prefill) {
   let currentLogo = p.logo || "";
 
   const container = el("div", { class: "admin-form" }, [
-    el("div", { class: "form-row-2" }, [formField("브랜드명 (한글)", nameKo, true), formField("브랜드명 (영문)", nameEn)]),
+    el("div", { class: "form-row-2" }, [formField("브랜드명 (한글)", nameKo, true), formField("브랜드명 (영문 · 비워두면 자동 입력)", nameEn)]),
     formField(
       "브랜드 유형 (노출될 메뉴/페이지 결정)",
       el("div", { class: "radio-row" }, [
@@ -532,13 +533,16 @@ function buildBrandFields(prefill) {
       if (logoFile.files[0]) {
         logo = await uploadProductImageTransparent(logoFile.files[0], 400, 200);
       }
+      // 영문 브랜드명을 비워두면 한글 브랜드명에서 영문 표기를 만들어 채운다
+      let nameEnVal = nameEn.value.trim();
+      if (!nameEnVal && nameKo.value.trim()) nameEnVal = await translateText(nameKo.value.trim(), "name");
       let descriptionEn = descEn.value.trim();
       if (!descriptionEn && descKo.value.trim()) descriptionEn = await translateText(descKo.value.trim());
       let taglineEnVal = taglineEn.value.trim();
       if (!taglineEnVal && tagline.value.trim()) taglineEnVal = await translateText(tagline.value.trim());
       return {
         nameKo: nameKo.value.trim(),
-        nameEn: nameEn.value.trim(),
+        nameEn: nameEnVal,
         type: typeImported.checked ? "imported" : "own",
         tagline: tagline.value.trim(),
         taglineEn: taglineEnVal,

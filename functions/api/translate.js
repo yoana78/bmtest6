@@ -13,17 +13,37 @@ export async function onRequestPost({ request, env }) {
   } catch {
     return new Response("Invalid JSON", { status: 400 });
   }
-  const { text } = body;
+  const { text, mode } = body;
   if (!text || !text.trim()) {
     return Response.json({ translated: "" });
   }
+
+  // 브랜드명은 뜻을 옮기면 안 되는 고유명사라, 영문 표기를 돌려주는 별도 지시를 쓴다.
+  const namePrompt = `You convert Korean brand names into their English brand spelling. The input is a proper noun, not a phrase to translate. If it is an existing international brand, use its official spelling. If it is a Korean transliteration of English words, return those English words in Title Case; otherwise romanize it. The company name 부명 is always written BOOMYUNG. Output ONLY the brand name on a single line — no quotes, no notes.
+
+Examples:
+<ko>벨버드</ko>
+Bell Bird
+<ko>에버그로</ko>
+Ever Grow
+<ko>하우펫</ko>
+Howpet
+<ko>데이스포</ko>
+Dayspo
+<ko>니나오토슨</ko>
+Nina Ottosson
+<ko>부명케어</ko>
+BOOMYUNG Care
+
+Now convert this:
+<ko>${text.trim()}</ko>`;
 
   try {
     const result = await env.AI.run("@cf/meta/llama-3.3-70b-instruct-fp8-fast", {
       messages: [
         {
           role: "user",
-          content: `You are a machine translation API. Translate the Korean text between <ko></ko> tags into English. Output ONLY the raw English translation on a single line — no tags, no quotes, no notes, no alternatives.\n\nExample:\n<ko>프리미엄 펫 케어 전문브랜드</ko>\nPremium pet care specialty brand\n\nNow translate this:\n<ko>${text.trim()}</ko>`
+          content: mode === "name" ? namePrompt : `You are a machine translation API. Translate the Korean text between <ko></ko> tags into English. Output ONLY the raw English translation on a single line — no tags, no quotes, no notes, no alternatives.\n\nExample:\n<ko>프리미엄 펫 케어 전문브랜드</ko>\nPremium pet care specialty brand\n\nNow translate this:\n<ko>${text.trim()}</ko>`
         }
       ],
       max_tokens: 300,
